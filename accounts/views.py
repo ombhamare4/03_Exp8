@@ -7,18 +7,20 @@ from django.contrib.auth import authenticate,login,logout
 def home(request):
     if request.user.is_anonymous:
         return redirect("login")
+    
     return render(request,'home.html')
     pass
 
-def login(request):
+def login_user(request):
 
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
-
+        print(username,password)
+        print(user)
         if user is not None:
-            # login(request, user)
+            login(request, user)
             print("User Found")
             return redirect('home')
         else:
@@ -48,6 +50,6 @@ def signup(request):
     return render(request,'signup.html')
     pass
 
-# def logout(request):
-#     logout(request)
-#     return render(request,'home')
+def logout_user(request):
+    logout(request)
+    return redirect('login')
